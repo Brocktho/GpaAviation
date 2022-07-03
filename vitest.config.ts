@@ -7,15 +7,10 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  envDir: "./",
   test: {
     globals: true,
     environment: "happy-dom",
     setupFiles: ["./test/setup-test-env.ts"],
-  },
-  define: {
-    "process.env.TESTING_API_KEY": process.env.TESTING_API_KEY,
-    "process.env.NODE_ENV": process.env.NODE_ENV,
-    "process.env.DATABASE_URL": process.env.DATABASE_URL,
-    'env("DATABASE_URL")': process.env.DATABASE_URL,
   },
 });
