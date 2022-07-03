@@ -4,17 +4,20 @@ import { createHourlyWeatherData } from "~/models/weather.server";
 let existingCron = false;
 
 export const CreateWeatherCron = async () => {
-  if (existingCron) {
-    return "Cron already Exists";
-  } else {
-    if (process.env.NODE_ENV === "production") {
-      cron.schedule("* 1 * * *", FetchWeatherData);
+  if (process.env.NODE_ENV === "production") {
+    if (existingCron) {
+      return "Cron already Exists";
+    } else {
+      setInterval(() => {
+        console.log("Starting Weather Job");
+        FetchWeatherData();
+      }, 1000 * 60 * 60);
       existingCron = true;
       return "Cron Scheduled";
-    } else {
-      // do something later;
-      return "Not in production, no cron";
     }
+  } else {
+    // do something later;
+    return "Not in production, no cron";
   }
 };
 
