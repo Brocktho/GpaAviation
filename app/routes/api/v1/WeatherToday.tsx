@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   let environString: string;
   if (
     process.env.NODE_ENV === "production" ||
-    process.env.NODE_ENV === "test"
+    process.env.NODE_ENV === "development"
   ) {
     invariant(process.env.TESTING_API_KEY, "TESTING_API_KEY is required");
     environString = process.env.TESTING_API_KEY;
