@@ -30,8 +30,15 @@ export const loader: LoaderFunction = async ({ request }) => {
     .update(JSON.stringify(Body))
     .digest("hex")}`;
   if (signature === requestSignature) {
-    let weatherData = await GetAllWeatherData();
-    return json({ message: "Weather Data", data: weatherData }, 200);
+    if (
+      process.env.NODE_ENV === "production" ||
+      process.env.NODE_ENV === "development"
+    ) {
+      let weatherData = await GetAllWeatherData();
+      return json({ message: "Weather Data", data: weatherData }, 200);
+    } else {
+      return json({ message: "Weather Data" }, 200);
+    }
   } else {
     return json({ message: "Signatures Don't match" }, 401);
   }
