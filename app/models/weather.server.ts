@@ -19,16 +19,16 @@ const weatherDataWithWeather = Prisma.validator<Prisma.WeatherDataArgs>()({
   include: { weather: true },
 });
 
-export async function ByCity(city: string) {
+export const ByCity = async (city: string) => {
   Query["where"] = {
     ...Query?.where,
     city_name: {
       contains: city,
     },
   };
-}
+};
 
-export async function ByDay(start: Date) {
+export const ByDay = (start: Date) => {
   console.log(start);
   let end = new Date();
   end.setDate(start.getDate() + 1);
@@ -40,9 +40,9 @@ export async function ByDay(start: Date) {
       lt: end,
     },
   };
-}
+};
 
-export async function ByHour(start: Date, end: Date) {
+export const ByHour = async (start: Date, end: Date) => {
   Query["where"] = {
     ...Query?.where,
     createdAt: {
@@ -50,14 +50,14 @@ export async function ByHour(start: Date, end: Date) {
       lte: end,
     },
   };
-}
+};
 
-export async function IncludeWeather() {
+export const IncludeWeather = async () => {
   Query.include = {
     ...Query.include,
     weather: true,
   };
-}
+};
 
 export const finishManyQuery = async () => {
   console.log(Query);
@@ -87,15 +87,15 @@ export const GetTodaysWeatherData = async () => {
   });
 };
 
-export async function find24HourWeather(dayNumber: number) {
+export const find24HourWeather = async (dayNumber: number) => {
   let today = new Date();
   today.setDate(dayNumber);
   await ByDay(today);
   await IncludeWeather();
   return finishManyQuery();
-}
+};
 
-export async function createHourlyWeatherData(weatherData: WeatherResponse) {
+export const createHourlyWeatherData = async (weatherData: WeatherResponse) => {
   console.log("creating new entry");
   await prisma.weather.upsert({
     where: { code: weatherData.weather.code },
@@ -107,4 +107,20 @@ export async function createHourlyWeatherData(weatherData: WeatherResponse) {
   return prisma.weatherData.create({
     data: desired,
   });
-}
+};
+
+export const IngestLiveData = async (data: WeatherDatasWithWeathers) => {
+  data.forEach(async (weatherData) => {
+    const { weather, ...others } = weatherData;
+    await prisma.weather.upsert({
+      where: { code: weather.code },
+      update: {},
+      create: weather,
+    });
+    await prisma.weatherData.upsert({
+      where: { ...others },
+      update: {},
+      create: others,
+    });
+  });
+};

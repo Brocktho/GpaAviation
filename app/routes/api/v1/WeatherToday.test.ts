@@ -1,8 +1,8 @@
-import { loader } from "./WeatherToday";
+import { action } from "./WeatherToday";
 import crypto from "crypto";
 import invariant from "tiny-invariant";
 
-test("Loader Returns 401 When Signature is incorrect", async () => {
+test("action Returns 401 When Signature is incorrect", async () => {
   const InvalidSignature: RequestInit = {
     headers: { "X-Testing-Signature-256": "" },
     method: "POST",
@@ -13,7 +13,7 @@ test("Loader Returns 401 When Signature is incorrect", async () => {
     body: JSON.stringify({ test: "Value" }),
   };
 
-  const InvalidResponse = await loader({
+  const InvalidResponse = await action({
     request: new Request(
       `https://localhost:3000/api/v1/WeatherToday`,
       InvalidSignature
@@ -27,7 +27,7 @@ test("Loader Returns 401 When Signature is incorrect", async () => {
   expect(InvalidStatus).toBe(401);
   expect(InvalidData.message).toBe("Signatures Don't match");
 
-  const MissingResponse = await loader({
+  const MissingResponse = await action({
     request: new Request(
       "https://localhost:3000/api/v1/WeatherToday",
       MissingHeader
@@ -43,7 +43,7 @@ test("Loader Returns 401 When Signature is incorrect", async () => {
   expect(MissingData.message).toBe("Signatures Don't match");
 });
 
-test("Loader Returns 405 when using GET", async () => {
+test("action Returns 405 when using GET", async () => {
   invariant(process.env.VITE_TESTING_API_KEY, "Required Environment Variable");
 
   const Posting: RequestInit = {
@@ -56,7 +56,7 @@ test("Loader Returns 405 when using GET", async () => {
     method: "GET",
   };
 
-  let PostingResponse = await loader({
+  let PostingResponse = await action({
     request: new Request("https://localhost:3000/api/v1/WeatherToday", Posting),
     context: "",
     params: {},
@@ -68,7 +68,7 @@ test("Loader Returns 405 when using GET", async () => {
   expect(status).toBe(405);
 });
 
-test("Loader Returns Weather Data", async () => {
+test("action Returns Weather Data", async () => {
   invariant(process.env.VITE_TESTING_API_KEY, "Required Environment Variable");
   const Valid: RequestInit = {
     headers: {
@@ -80,7 +80,7 @@ test("Loader Returns Weather Data", async () => {
     method: "POST",
     body: JSON.stringify({ test: "Value" }),
   };
-  let ValidResponse = await loader({
+  let ValidResponse = await action({
     request: new Request("https://localhost:3000/api/v1/WeatherToday", Valid),
     context: "",
     params: {},
