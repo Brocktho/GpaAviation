@@ -1,8 +1,8 @@
 import { prisma } from "~/db.server";
 import { Prisma } from "@prisma/client";
 
-import type { WeatherData, Weather } from "@prisma/client";
-import type { WeatherResponse, Structured } from "~/types";
+import type { WeatherData } from "@prisma/client";
+import type { WeatherResponse } from "~/types";
 
 export type { WeatherData, Weather } from "@prisma/client";
 export type WeatherDatas = Array<WeatherData>;
@@ -69,6 +69,7 @@ export const finishManyQuery = async () => {
 export const finishUniqueQuery = async () => {
   const RESPONSE = prisma.weatherData.findUnique(uniqueQuery);
   uniqueQuery = { where: {} };
+  return RESPONSE;
 };
 
 export const GetAllWeatherData = async () => {
@@ -96,7 +97,7 @@ export async function find24HourWeather(dayNumber: number) {
 
 export async function createHourlyWeatherData(weatherData: WeatherResponse) {
   console.log("creating new entry");
-  let Weather = await prisma.weather.upsert({
+  await prisma.weather.upsert({
     where: { code: weatherData.weather.code },
     update: {},
     create: weatherData.weather,

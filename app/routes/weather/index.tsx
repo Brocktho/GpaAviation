@@ -8,7 +8,7 @@ import type {
   WeatherDatas,
 } from "~/models/weather.server";
 
-export type WeatherIndex = {
+export type WeatherIndexData = {
   lastTwenty: WeatherDatasWithWeathers;
   allTime: WeatherDatas;
 };
@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const WeatherIndex = () => {
-  let Data = useLoaderData() as WeatherIndex;
+  let Data = useLoaderData() as WeatherIndexData;
   return (
     <div className="flex min-h-screen flex-col items-center gap-4 bg-slate-50 text-slate-700 dark:bg-slate-700 dark:text-slate-50">
       {Data.lastTwenty.map((entry) => {

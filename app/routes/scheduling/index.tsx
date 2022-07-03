@@ -1,6 +1,6 @@
 import { env } from "process";
-import { useRef, useState } from "react";
-import { useLoaderData } from "@remix-run/react";
+import { useRef } from "react";
+
 import Button from "~/components/Buttons/Main";
 
 export async function loader() {
@@ -8,11 +8,7 @@ export async function loader() {
 }
 
 const Scheduling = () => {
-  const [weather, setWeather] = useState();
-  const weatherKey = useLoaderData();
   const FULL_NAME = useRef<HTMLInputElement>(null);
-  const active =
-    "block w-full translate-y-full bg-red-300 px-2 transition duration-200 hover:w-32 hover:translate-y-0 hover:text-xs";
 
   return (
     <div className="flex min-h-screen w-screen flex-row items-center gap-4 bg-slate-50 px-8 dark:bg-slate-700">
