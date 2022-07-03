@@ -44,12 +44,12 @@ test("Loader Returns 401 When Signature is incorrect", async () => {
 });
 
 test("Loader Returns 405 when using GET", async () => {
-  invariant(process.env.TESTING_API_KEY, "Required Environment Variable");
+  invariant(process.env.VITE_TESTING_API_KEY, "Required Environment Variable");
 
   const Posting: RequestInit = {
     headers: {
       "X-Testing-Signature-256": `sha256=${crypto
-        .createHmac("sha256", process.env.TESTING_API_KEY)
+        .createHmac("sha256", process.env.VITE_TESTING_API_KEY)
         .update(JSON.stringify({ test: "Value" }))
         .digest("hex")}`,
     },
