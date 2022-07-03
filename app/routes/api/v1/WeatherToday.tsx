@@ -11,9 +11,22 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
   const requestSignature = request.headers.get("X-Testing-Signature-256");
   const Body = await request.json();
-  invariant(process.env.TESTING_API_KEY, "TESTING_API_KEY is required");
+  let environString: string;
+  if (
+    process.env.NODE_ENV === "production" ||
+    process.env.NODE_ENV === "test"
+  ) {
+    invariant(process.env.TESTING_API_KEY, "TESTING_API_KEY is required");
+    environString = process.env.TESTING_API_KEY;
+  } else {
+    invariant(
+      process.env.VITE_TESTING_API_KEY,
+      "VITE_TESTING_API_KEY is required"
+    );
+    environString = process.env.VITE_TESTING_API_KEY;
+  }
   let signature = `sha256=${crypto
-    .createHmac("sha256", process.env.TESTING_API_KEY)
+    .createHmac("sha256", environString)
     .update(JSON.stringify(Body))
     .digest("hex")}`;
   if (signature === requestSignature) {
