@@ -12,5 +12,10 @@ export default defineConfig({
     environment: "happy-dom",
     setupFiles: ["./test/setup-test-env.ts"],
   },
-  define: { "process.env.TESTING_API_KEY": process.env.TESTING_API_KEY },
+  define: {
+    "process.env.TESTING_API_KEY": process.env.TESTING_API_KEY,
+    "process.env.NODE_ENV": process.env.NODE_ENV,
+    "process.env.DATABASE_URL": process.env.DATABASE_URL,
+    'env("DATABASE_URL")': process.env.DATABASE_URL,
+  },
 });
