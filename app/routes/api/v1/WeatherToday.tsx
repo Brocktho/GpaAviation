@@ -3,9 +3,9 @@ import { json } from "@remix-run/node";
 import crypto from "crypto";
 import invariant from "tiny-invariant";
 
-import type { LoaderFunction } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request }) => {
   if (request.method !== "POST") {
     return json({ message: "Method Not Allowed" }, 405);
   }
