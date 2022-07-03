@@ -1,4 +1,3 @@
-import * as cron from "node-cron";
 import { createHourlyWeatherData } from "~/models/weather.server";
 
 let existingCron = false;
