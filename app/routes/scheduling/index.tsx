@@ -13,21 +13,6 @@ const Scheduling = () => {
   const FULL_NAME = useRef<HTMLInputElement>(null);
   const active =
     "block w-full translate-y-full bg-red-300 px-2 transition duration-200 hover:w-32 hover:translate-y-0 hover:text-xs";
-  const URL = `https://api.weatherbit.io/v2.0/current?postal_code=21740&key=${weatherKey}`;
-  const handleQuery = async () => {
-    const RESPONSE = await fetch(URL, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Accept-Encoding": "gzip",
-        "Content-Type": "application/json",
-      },
-    });
-    console.log(RESPONSE);
-    console.log(RESPONSE.body);
-    const DATA = await RESPONSE.json();
-    RESPONSE.ok && console.log(DATA);
-  };
 
   return (
     <div className="flex min-h-screen w-screen flex-row items-center gap-4 bg-slate-50 px-8 dark:bg-slate-700">
@@ -52,7 +37,7 @@ const Scheduling = () => {
         </ul>
       </form>
       <div className="min-w-[16rem] max-w-[48%] flex-grow bg-slate-500">
-        <Button color="green-500" text="Search" func={handleQuery} />
+        <Button color="green-500" text="Search" func={() => {}} />
       </div>
     </div>
   );
