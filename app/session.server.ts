@@ -18,6 +18,8 @@ export const sessionStorage = createCookieSessionStorage({
 });
 
 const USER_SESSION_KEY = "userId";
+const ADMIN_SESSION_KEY = "adminEntryPoint";
+const ADMIN_EMAILS = ["brock.donahue123@gmail.com", "jcbaginski@gmail.com"];
 
 export async function getSession(request: Request) {
   const cookie = request.headers.get("Cookie");
@@ -30,6 +32,21 @@ export async function getUserId(
   const session = await getSession(request);
   const userId = session.get(USER_SESSION_KEY);
   return userId;
+}
+
+export async function getAdminId(
+  request: Request
+): Promise<User["id"] | undefined> {
+  const session = await getSession(request);
+  const userId = session.get(USER_SESSION_KEY);
+  const USER = await getUserById(userId);
+  if (USER !== null) {
+    if (ADMIN_EMAILS.includes(USER["email"])) {
+      return userId;
+    } else return undefined;
+  } else {
+    return undefined;
+  }
 }
 
 export async function getUser(request: Request) {
@@ -85,6 +102,22 @@ export async function createUserSession({
       }),
     },
   });
+}
+
+export async function createAdminSession({
+  request,
+  userId,
+  remember,
+  redirectTo,
+}: {
+  request: Request;
+  userId: string;
+  remember: boolean;
+  redirectTo: string;
+}) {
+  const session = await getSession(request);
+
+  session.set(ADMIN_SESSION_KEY, true);
 }
 
 export async function logout(request: Request) {
