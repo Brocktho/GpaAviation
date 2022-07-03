@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 
-const Navbar = () => {};
+const Navbar = () => {
+};
 
 export default Navbar;

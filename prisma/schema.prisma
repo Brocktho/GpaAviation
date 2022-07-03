@@ -25,6 +25,58 @@ model Password {
   userId String @unique
 }
 
+model WeatherData {
+  id             Int     @id @default(autoincrement())
+  app_temp       Float
+  aqi            Int
+  city_name      String
+  clouds         Int
+  country_code   String
+  datetime       String
+  dewpt          Float
+  dhi            Float
+  dni            Float
+  elev_angle     Float
+  ghi            Float
+  h_angle        Float
+  lat            Float
+  lon            Float
+  ob_time        String
+  pod            String
+  precip         Int
+  pres           Float
+  rh             Int
+  slp            Float
+  snow           Int
+  solar_rad      Float
+  state_code     String
+  station        String
+  sunrise        String
+  sunset         String
+  temp           Float
+  timezone       String
+  vis            Int
+  uv             Float
+  ts             Int
+  weather        Weather @relation(fields: [weatherCode], references: [code])
+  weatherCode    Int
+  wind_cdir      String
+  wind_cdir_full String
+  wind_dir       Int
+  wind_spd       Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Weather {
+  id          Int           @id @default(autoincrement())
+  code        Int           @unique
+  description String
+  icon        String
+  weatherData WeatherData[]
+}
+
 model Note {
   id    String @id @default(cuid())
   title String

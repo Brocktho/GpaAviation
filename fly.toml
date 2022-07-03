@@ -1,4 +1,4 @@
-app = "Gpa-f910"
+app = "joe-flys"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = [ ]

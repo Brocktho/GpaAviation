@@ -12,6 +12,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { CreateWeatherCron } from "./server/scheduling.server";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getUser } from "./session.server";
@@ -31,6 +32,7 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
+  console.log(CreateWeatherCron());
   return json<LoaderData>({
     user: await getUser(request),
   });

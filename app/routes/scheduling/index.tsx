@@ -23,6 +23,8 @@ const Scheduling = () => {
         "Content-Type": "application/json",
       },
     });
+    console.log(RESPONSE);
+    console.log(RESPONSE.body);
     const DATA = await RESPONSE.json();
     RESPONSE.ok && console.log(DATA);
   };
