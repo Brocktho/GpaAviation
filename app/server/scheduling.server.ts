@@ -44,14 +44,20 @@ export const CreateWeatherCron = async () => {
           body: JSON.stringify({ test: "Value" }),
         }
       );
-      console.log(LIVE_DATA.status);
       if (LIVE_DATA.status === 200) {
         const DATA = (await LIVE_DATA.json()) as {
           message: string;
           data: WeatherDatasWithWeathers;
         };
-        console.log(DATA);
-        IngestLiveData(DATA.data);
+        try {
+          IngestLiveData(DATA.data);
+        } catch (e) {
+          if (typeof e === "string") {
+            console.log(e);
+          } else if (e instanceof Error) {
+            console.log(e.message);
+          }
+        }
       }
       existingCron = true;
     }

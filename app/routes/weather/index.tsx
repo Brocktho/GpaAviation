@@ -23,11 +23,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 const WeatherIndex = () => {
   let Data = useLoaderData() as WeatherIndexData;
   return (
-    <div className="flex min-h-screen flex-col items-center gap-4 bg-slate-50 text-slate-700 dark:bg-slate-700 dark:text-slate-50">
+    <>
       {Data.lastTwenty.map((entry) => {
-        return <div className="w-full">{entry.weather.code}</div>;
+        return <div className="w-full bg-slate-700">{entry.weather.code}</div>;
       })}
-    </div>
+    </>
   );
 };
 

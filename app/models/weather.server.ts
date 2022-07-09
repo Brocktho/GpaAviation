@@ -112,14 +112,15 @@ export const createHourlyWeatherData = async (weatherData: WeatherResponse) => {
 export const IngestLiveData = async (data: WeatherDatasWithWeathers) => {
   data.forEach(async (weatherData) => {
     const { weather, ...others } = weatherData;
+    const { id, ...otherWeather } = weather;
     await prisma.weather.upsert({
-      where: { code: weather.code },
+      where: { code: otherWeather.code },
       update: {},
-      create: weather,
+      create: otherWeather,
     });
     await prisma.weatherData.upsert({
-      where: { ...others },
-      update: {},
+      where: { id: others.id },
+      update: others,
       create: others,
     });
   });

@@ -12,6 +12,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import Navbar from "~/components/Navigation/Navbar";
 import { CreateWeatherCron } from "./server/scheduling.server";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
@@ -46,10 +47,13 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <Navbar />
+        <div className="mt-32 flex h-full w-full flex-col items-center gap-4">
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </div>
       </body>
     </html>
   );
