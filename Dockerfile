@@ -1,5 +1,5 @@
 # base node image
-FROM bunbunbunbun/bun-base:latest as base
+FROM node:16-bullseye-slim as base
 
 # set for base and all layer that inherit from it
 ENV NODE_ENV production
@@ -35,7 +35,7 @@ ADD prisma .
 RUN npx prisma generate
 
 ADD . .
-RUN bun run build
+RUN npm run build
 
 # Finally, build the production image with minimal footprint
 FROM base
