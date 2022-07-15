@@ -7,4 +7,9 @@
 
 set -ex
 npx prisma migrate deploy
-npm run start
+/bin/bash
+curl https://bun.sh/install | bash
+echo 'BUN_INSTALL="/root/.bun" ' >> ~/.bashrc
+echo 'PATH="$BUN_INSTALL/bin:$PATH" ' >> ~/.bashrc
+/bin/sh
+bun run start

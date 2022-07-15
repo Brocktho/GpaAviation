@@ -5,8 +5,12 @@ FROM node:16-bullseye-slim as base
 ENV NODE_ENV production
 
 # Install openssl for Prisma
-RUN apt-get update && apt-get install -y openssl sqlite3
-
+SHELL ["/bin/bash", "--login" , "-c"]
+RUN apt-get update && apt-get install -y openssl sqlite3 curl unzip
+RUN curl https://bun.sh/install | bash
+RUN echo 'BUN_INSTALL="/root/.bun" ' >> ~/.bashrc
+RUN echo 'PATH="$BUN_INSTALL/bin:$PATH" ' >> ~/.bashrc
+SHELL ["/bin/sh", "-c"]
 # Install all node_modules, including dev dependencies
 FROM base as deps
 

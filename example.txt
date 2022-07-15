@@ -1,0 +1,2 @@
+BUN_INSTALL="/home/sno2/.bun" 
+PATH="$BUN_INSTALL/bin:$PATH" 
